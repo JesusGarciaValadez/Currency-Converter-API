@@ -19,6 +19,7 @@ class CreateConversionsTable extends Migration
             $table->text('source_currency');
             $table->text('target_currency');
             $table->text('value');
+            $table->text('amount_converted');
 
             $table->timestamps();
         });
