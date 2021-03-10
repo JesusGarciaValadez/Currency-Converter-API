@@ -5,6 +5,7 @@ namespace App;
 
 use App\Models\Conversions as ConversionsModel;
 use \Exception;
+use \stdClass;
 
 class CurrencyRepository
 {
@@ -14,7 +15,7 @@ class CurrencyRepository
         $this->model = $conversionsModel;
     }
 
-    public function storeCurrencyConverted(\stdClass $currencyConvertedResponse): ConversionsModel
+    public function storeCurrencyConverted(stdClass $currencyConvertedResponse): ConversionsModel
     {
         $this->model['source_currency'] = $currencyConvertedResponse->query->from;
         $this->model['target_currency'] = $currencyConvertedResponse->query->to;

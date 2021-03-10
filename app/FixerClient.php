@@ -7,6 +7,8 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use \Exception;
+use \stdClass;
 
 class FixerClient
 {
@@ -22,12 +24,12 @@ class FixerClient
             );
 
             return Http::get($url);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Log::error($exception->getMessage());
         }
     }
 
-    public function getCurrencyConverted(Request $request): ?\stdClass
+    public function getCurrencyConverted(Request $request): ?stdClass
     {
         $currencyConverted = $this->convertCurrency($request);
 
@@ -35,14 +37,14 @@ class FixerClient
             $body = json_decode($currencyConverted->body());
 
             if (!$body->success) {
-                throw new \Exception($body->error->info);
+                throw new Exception($body->error->info);
             }
 
             return $body;
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             Log::error($exception->getMessage());
 
-            throw new \Exception($exception->getMessage());
+            throw new Exception($exception->getMessage());
         }
     }
 }
