@@ -25,6 +25,7 @@ class ConversionsFactory extends Factory
             'source_currency' => $this->faker->currencyCode(),
             'target_currency' => $this->faker->currencyCode(),
             'value' => $this->faker->randomFloat(2, 1, 1000),
+            'amount_converted' => $this->faker->randomFloat(2, 1, 1000),
         ];
     }
 }
