@@ -7,6 +7,8 @@ use App\CurrencyRepository;
 use App\Models\Conversions as ConversionsModel;
 use App\FixerClient as Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use \Exception;
 
 class Conversions
 {
@@ -21,13 +23,19 @@ class Conversions
 
     public function processCurrencyConversion(Request $request): ConversionsModel
     {
-        $currencyConverted = $this->client->getCurrencyConverted($request);
-        $result = $this->repository->storeCurrencyConverted($currencyConverted);
+        try {
+            $currencyConverted = $this->client->getCurrencyConverted($request);
+            $result = $this->repository->storeCurrencyConverted($currencyConverted);
 
-        if (empty($result)) {
-            throw new \Exception('The currency was not converted.');
+            if (empty($result)) {
+                throw new \Exception('The currency was not converted.');
+            }
+
+            return $result;
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+
+            throw $exception;
         }
-
-        return $result;
     }
 }
