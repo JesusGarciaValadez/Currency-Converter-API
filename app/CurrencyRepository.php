@@ -4,6 +4,7 @@
 namespace App;
 
 use App\Models\Conversions as ConversionsModel;
+use \Exception;
 
 class CurrencyRepository
 {
@@ -21,7 +22,7 @@ class CurrencyRepository
         $this->model['amount_converted'] = (string) $currencyConvertedResponse->result;
 
         if (!$this->model->save()) {
-            throw new \Exception('Conversion was not recorded.');
+            throw new Exception('Conversion was not recorded.');
         }
 
         return $this->model;
