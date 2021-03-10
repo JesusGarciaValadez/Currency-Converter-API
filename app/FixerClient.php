@@ -26,6 +26,8 @@ class FixerClient
             return Http::get($url);
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
+
+            throw $exception;
         }
     }
 
@@ -44,7 +46,7 @@ class FixerClient
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
 
-            throw new Exception($exception->getMessage());
+            throw $exception;
         }
     }
 }

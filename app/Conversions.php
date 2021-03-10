@@ -6,6 +6,8 @@ namespace App;
 use App\Models\Conversions as ConversionsModel;
 use App\FixerClient as Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use \Exception;
 
 class Conversions
 {
