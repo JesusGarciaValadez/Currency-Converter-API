@@ -19,4 +19,13 @@ class Conversions extends Model
         'target_currency',
         'value',
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'id',
+    ];
 }
