@@ -3,7 +3,6 @@
 
 namespace App;
 
-use App\CurrencyRepository;
 use App\Models\Conversions as ConversionsModel;
 use App\FixerClient as Client;
 use Illuminate\Http\Request;
@@ -23,19 +22,7 @@ class Conversions
 
     public function processCurrencyConversion(Request $request): ConversionsModel
     {
-        try {
-            $currencyConverted = $this->client->getCurrencyConverted($request);
-            $result = $this->repository->storeCurrencyConverted($currencyConverted);
-
-            if (empty($result)) {
-                throw new \Exception('The currency was not converted.');
-            }
-
-            return $result;
-        } catch (Exception $exception) {
-            Log::error($exception->getMessage());
-
-            throw $exception;
-        }
+        $currencyConverted = $this->client->getCurrencyConverted($request);
+        return $this->repository->storeCurrencyConverted($currencyConverted);
     }
 }
