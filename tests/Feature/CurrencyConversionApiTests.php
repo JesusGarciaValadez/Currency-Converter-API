@@ -8,6 +8,8 @@ use Tests\TestCase;
 
 class CurrencyConversionApiTests extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * Assess the API get the right value.
      *
@@ -18,7 +20,6 @@ class CurrencyConversionApiTests extends TestCase
         $sourceCurrency = 'USD';
         $targetCurrency = 'DKK';
         $value = '1000';
-        $result = '6237.799';
 
         $response = $this->postJson(
             '/api/currency/conversion',
@@ -34,7 +35,6 @@ class CurrencyConversionApiTests extends TestCase
                 'source_currency' => $sourceCurrency,
                 'target_currency' => $targetCurrency,
                 'value' => $value,
-                'amount_converted' => $result,
             ]);
     }
 
@@ -163,7 +163,7 @@ class CurrencyConversionApiTests extends TestCase
     }
 
     /**
-     * Assess the API get an error when the source currency have an incorrect currency value
+     * Assess the API get an error when the source currency have an incorrect currency value.
      *
      * @return void
      */
@@ -190,7 +190,7 @@ class CurrencyConversionApiTests extends TestCase
     }
 
     /**
-     * Assess the API get an error when the target currency have an incorrect currency value
+     * Assess the API get an error when the target currency have an incorrect currency value.
      *
      * @return void
      */
@@ -214,5 +214,57 @@ class CurrencyConversionApiTests extends TestCase
             ->assertJson([
                 "error" => $error,
             ]);
+    }
+
+    /**
+     * Assess the database has the values stored.
+     *
+     * @return void
+     */
+    public function test_assess_the_database_has_the_values_stored()
+    {
+        $sourceCurrency = 'USD';
+        $targetCurrency = 'DKK';
+        $value = '1000';
+
+        $this->postJson(
+            '/api/currency/conversion',
+            [
+                'source_currency' => $sourceCurrency,
+                'target_currency' => $targetCurrency,
+                'value' => $value,
+            ]);
+
+        $this->assertDatabaseHas('conversions', [
+            'source_currency' => $sourceCurrency,
+            'target_currency' => $targetCurrency,
+            'value' => $value,
+        ]);;
+    }
+
+    /**
+     * Assess that the database is empty.
+     *
+     * @return void
+     */
+    public function test_assess_that_the_database_is_empty()
+    {
+        $sourceCurrency = 'USD';
+        $targetCurrency = 'DKN';
+        $value = '1000';
+
+        $this->postJson(
+            '/api/currency/conversion',
+            [
+                'source_currency' => $sourceCurrency,
+                'target_currency' => $targetCurrency,
+                'value' => $value,
+            ]);
+
+        $this->assertDatabaseMissing('conversions', [
+            'source_currency' => $sourceCurrency,
+            'target_currency' => $targetCurrency,
+            'value' => $value,
+        ]);;
     }
 }
