@@ -7,7 +7,7 @@ use App\Models\Conversions as ConversionsModel;
 use \Exception;
 use \stdClass;
 
-class CurrencyRepository
+class ConversionsRepository
 {
     public function __construct (
         private ConversionsModel $conversionsModel
