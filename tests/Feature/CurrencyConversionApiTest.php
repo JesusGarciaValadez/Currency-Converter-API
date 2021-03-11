@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class CurrencyConversionApiTests extends TestCase
+class CurrencyConversionApiTest extends TestCase
 {
     use RefreshDatabase;
 
