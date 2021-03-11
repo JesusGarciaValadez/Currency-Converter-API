@@ -1,0 +1,52 @@
+{
+	"info": {
+		"_postman_id": "533d9a94-fb97-416b-8e45-f425fe4dc890",
+		"name": "Currency Conversion API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Convert a currency",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "source_currency",
+							"value": "USD",
+							"description": "The source currency to convert",
+							"type": "text"
+						},
+						{
+							"key": "target_currency",
+							"value": "DKK",
+							"description": "The target currency",
+							"type": "text"
+						},
+						{
+							"key": "value",
+							"value": "13000",
+							"description": "The value of the source currency to convert",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost/api/currency/conversion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"currency",
+						"conversion"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
