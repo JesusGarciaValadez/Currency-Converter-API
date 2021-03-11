@@ -1,62 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Currency Conversion API
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Pre-requisites
 
-## About Laravel
+- Docker locally.
+- Git installed locally.
+- PHP installed locally.
+- [Composer](https://getcomposer.org/download/) installed locally.
+- An API Access Key tied to a valid account in [fixer.io](https://fixer.io/) subscribed to the basic plan.
+- Before starting, you should ensure that no other web servers or databases are running on your local computer.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Requisites
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Clone the repository locally with `git clone git@github.com:JesusGarciaValadez/Currency-Converter-API.git`.
+- Accessing to the repository with `cd Currency-Converter-API`;
+- Copy the `.env.example` file as `.env` file.
+- Replace the following values:
+```
+APP_NAME=
+APP_URL=
+...
+DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
+...
+FIXER_API_KEY=
+  ```
+- For the `APP_URL` you can use the `http://localhost`.
+- You can use wherever values do you want to use for the database setup.
+- You need your **Fixer's API Access Key** for the `FIXER_API_KEY` environment variable.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## Installation instructions
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### How to create the container?
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Install the composer dependencies with `composer install`;
+- Run the command `php artisan sail:install` to publish the necessary for Docker to run.
+- Create the Docker container using `./vendor/bin/sail up -d` for the detached mode.
+- This will create the container using some environment variables of your `.env` file.
 
-## Laravel Sponsors
+### How to create the database?
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Once the container was created and running, you have to run the following command: `./vendor/bin/sail artisan migrate:fresh`.
 
-### Premium Partners
+### How to access the API?
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+You can access the API through `http://localhost/api/currency/conversion` endpoint.
 
-## Contributing
+### How to run the tests?
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+You can run the following command `./vendor/bin/sail test`.
 
-## Code of Conduct
+### How to interact with the database?
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+You can access the database using `127.0.0.1` as `host` and the same values for the `DB_USERNAME`, `DB_PASSWORD`, and `DB_USERNAME` stored in your `.env` file.
 
-## Security Vulnerabilities
+### How to stop the containers?
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+You can stop the containers using `./vendor/bin/sail down`.
 
-## License
+## How to use the API?
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The only endpoint available is a `POST` request to `/api/currency/conversion`. The payload accepted is something like the following:
+
+```
+{
+    "source_currency": "USD",
+    "target_currency": "DKK",
+    "value": "1000",
+}
+```
+
+All the fields are mandatory to get a proper response like the following:
+
+```
+{
+    ...
+    "source_currency": "USD",
+    "target_currency": "DKK",
+    "value": "1000",
+    "amount_converted": "6233.696",
+    ...
+}
+```
+
+If any of the fields are missed, or any of the currency fields have an invalid currency, then you'll have an error.
+
+## Deploy to production
+
+You can see the result of the API deployed to [production](http://104.238.181.200/api/currency/conversion)
+
+### ToDo:
+
+- Add support for the rate of the currency to convert into the database and the response.
+- Add support for the timestamp of the moment of the conversion.
