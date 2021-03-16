@@ -47,7 +47,7 @@ Once the container was created and running, you have to run the following comman
 ./vendor/bin/sail artisan key:generate;
 ./vendor/bin/sail artisan migrate:fresh;
 ./vendor/bin/sail artisan migrate:fresh --env=testing;
-```.
+```
 
 ### How to access the API?
 
