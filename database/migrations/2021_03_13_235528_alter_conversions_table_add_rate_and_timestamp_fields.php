@@ -15,7 +15,7 @@ class AlterConversionsTableAddRateAndTimestampFields extends Migration
     {
         Schema::table('conversions', function (Blueprint $table) {
             $table->text('rate')->after('value');
-            $table->timestamp('timestamp')->after('rate');
+            $table->text('timestamp')->after('rate');
         });
     }
 
