@@ -19,7 +19,7 @@ class CreateCountriesTable extends Migration
             $table->text('name');
             $table->text('description');
             $table->text('code')->nullable();
-            $table->text('iso')->nullable();
+            $table->char('iso', 8)->nullable();
 
             $table->timestamps();
         });
