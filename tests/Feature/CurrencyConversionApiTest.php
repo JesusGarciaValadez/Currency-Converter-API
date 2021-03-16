@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Currency;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -17,23 +18,33 @@ class CurrencyConversionApiTest extends TestCase
      */
     public function test_assess_the_api_get_the_right_value()
     {
-        $sourceCurrency = 'USD';
-        $targetCurrency = 'DKK';
+        $sourceCurrency = [
+            'name' => 'US Dollar',
+            'code' => 'USD',
+            'number' => '840',
+        ];
+        $targetCurrency = [
+            'name' => 'Danish Krone',
+            'code' => 'DKK',
+            'number' => '208',
+        ];
         $value = '1000';
+        $usd = Currency::create($sourceCurrency);
+        $dkk = Currency::create($targetCurrency);
 
         $response = $this->postJson(
             '/api/currency/conversion',
             [
-                'source_currency' => $sourceCurrency,
-                'target_currency' => $targetCurrency,
+                'source_currency' => $usd->code,
+                'target_currency' => $dkk->code,
                 'value' => $value,
             ]);
 
         $response
             ->assertStatus(201)
             ->assertJson([
-                'source_currency' => $sourceCurrency,
-                'target_currency' => $targetCurrency,
+                'currencies_id_source' => $usd->id,
+                'currencies_id_target' => $dkk->id,
                 'value' => $value,
             ]);
     }
@@ -223,21 +234,31 @@ class CurrencyConversionApiTest extends TestCase
      */
     public function test_assess_the_database_has_the_values_stored()
     {
-        $sourceCurrency = 'USD';
-        $targetCurrency = 'DKK';
+        $sourceCurrency = [
+            'name' => 'US Dollar',
+            'code' => 'USD',
+            'number' => '840',
+        ];
+        $targetCurrency = [
+            'name' => 'Danish Krone',
+            'code' => 'DKK',
+            'number' => '208',
+        ];
         $value = '1000';
+        $usd = Currency::create($sourceCurrency);
+        $dkk = Currency::create($targetCurrency);
 
         $this->postJson(
             '/api/currency/conversion',
             [
-                'source_currency' => $sourceCurrency,
-                'target_currency' => $targetCurrency,
+                'source_currency' => $usd->code,
+                'target_currency' => $dkk->code,
                 'value' => $value,
             ]);
 
         $this->assertDatabaseHas('conversions', [
-            'source_currency' => $sourceCurrency,
-            'target_currency' => $targetCurrency,
+            'currencies_id_source' => $usd->id,
+            'currencies_id_target' => $dkk->id,
             'value' => $value,
         ]);;
     }
