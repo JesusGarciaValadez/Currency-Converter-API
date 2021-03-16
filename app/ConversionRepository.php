@@ -16,7 +16,7 @@ class ConversionRepository
         $this->model = $conversionModel;
     }
 
-    public function getCurrencyInformation(stdClass $currencyConverted): void
+    private function getCurrencyInformation(stdClass $currencyConverted): void
     {
         $this->model['currencies_id_source'] = (int) (Currency::firstWhere('code', $currencyConverted->query->from))->id;
         $this->model['currencies_id_target'] = (int) (Currency::firstWhere('code', $currencyConverted->query->to))->id;
@@ -26,7 +26,19 @@ class ConversionRepository
         $this->model['timestamp'] = (string) $currencyConverted->info->timestamp;
     }
 
-    public function storeCurrencyConverted(stdClass $currencyConvertedResponse): ConversionModel
+    private function mapResponse(stdClass $currencyConverted): array
+    {
+        return $response = [
+            'source_currency' => (string) (Currency::firstWhere('code', $currencyConverted->query->from))->code,
+            'target_currency' => (string) (Currency::firstWhere('code', $currencyConverted->query->to))->code,
+            'value' => (string) $currencyConverted->query->amount,
+            'amount_converted' => (string) $currencyConverted->result,
+            'rate' => (string) $currencyConverted->info->rate,
+            'timestamp' => (string) $currencyConverted->info->timestamp,
+        ];
+    }
+
+    public function storeCurrencyConverted(stdClass $currencyConvertedResponse): array
     {
         $this->getCurrencyInformation($currencyConvertedResponse);
 
@@ -34,6 +46,6 @@ class ConversionRepository
             throw new Exception('Conversion was not recorded.');
         }
 
-        return $this->model;
+        return $this->mapResponse($currencyConvertedResponse);
     }
 }
