@@ -43,8 +43,8 @@ class CurrencyConversionApiTest extends TestCase
         $response
             ->assertStatus(201)
             ->assertJson([
-                'currencies_id_source' => $usd->id,
-                'currencies_id_target' => $dkk->id,
+                'source_currency' => $usd->code,
+                'target_currency' => $dkk->code,
                 'value' => $value,
             ]);
     }
