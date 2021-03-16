@@ -2,17 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Conversions;
+use App\Models\Conversion;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ConversionsFactory extends Factory
+class ConversionFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Conversions::class;
+    protected $model = Conversion::class;
 
     /**
      * Define the model's default state.
@@ -25,6 +26,8 @@ class ConversionsFactory extends Factory
             'source_currency' => $this->faker->currencyCode(),
             'target_currency' => $this->faker->currencyCode(),
             'value' => $this->faker->randomFloat(2, 1, 1000),
+            'rate' => $this->faker->randomFloat(2, 1000),
+            'timestamp' => Carbon::now(),
             'amount_converted' => $this->faker->randomFloat(2, 1, 1000),
         ];
     }

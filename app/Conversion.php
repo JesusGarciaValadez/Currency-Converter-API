@@ -3,22 +3,22 @@
 
 namespace App;
 
-use App\Models\Conversions as ConversionsModel;
+use App\Models\Conversion as ConversionModel;
 use App\FixerClient as Client;
 use Illuminate\Http\Request;
 
-class Conversions
+class Conversion
 {
     public function __construct(
         private Client $client,
-        private ConversionsRepository $repository
+        private ConversionRepository $repository
     )
     {
         $this->client = new Client();
-        $this->repository = new ConversionsRepository(new ConversionsModel());
+        $this->repository = new ConversionRepository(new ConversionModel());
     }
 
-    public function processCurrencyConversion(Request $request): ConversionsModel
+    public function processCurrencyConversion(Request $request): ConversionModel
     {
         $currencyConverted = $this->client->getCurrencyConverted($request);
         return $this->repository->storeCurrencyConverted($currencyConverted);
