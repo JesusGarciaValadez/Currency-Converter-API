@@ -3,19 +3,19 @@
 
 namespace App;
 
-use App\Models\Conversions as ConversionsModel;
+use App\Models\Conversion as ConversionModel;
 use \Exception;
 use \stdClass;
 
-class ConversionsRepository
+class ConversionRepository
 {
     public function __construct (
-        private ConversionsModel $conversionsModel
+        private ConversionModel $conversionModel
     ) {
-        $this->model = $conversionsModel;
+        $this->model = $conversionModel;
     }
 
-    public function storeCurrencyConverted(stdClass $currencyConvertedResponse): ConversionsModel
+    public function storeCurrencyConverted(stdClass $currencyConvertedResponse): ConversionModel
     {
         $this->model['source_currency'] = $currencyConvertedResponse->query->from;
         $this->model['target_currency'] = $currencyConvertedResponse->query->to;

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Conversions;
+use App\Models\Conversion;
 use Illuminate\Database\Seeder;
 
-class ConversionsSeeder extends Seeder
+class ConversionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class ConversionsSeeder extends Seeder
      */
     public function run()
     {
-        Conversions::factory()
+        Conversion::factory()
             ->count(100)
             ->create();
     }
