@@ -22,9 +22,12 @@ class Conversion extends Model
      * @var array
      */
     protected $fillable = [
-        'source_currency',
-        'target_currency',
         'value',
+        'amount_converted',
+        'rate',
+        'currencies_id_source',
+        'currencies_id_target',
+        'timestamp',
     ];
 
     /**
@@ -34,5 +37,7 @@ class Conversion extends Model
      */
     protected $hidden = [
         'id',
+        'source_currency',
+        'target_currency',
     ];
 }

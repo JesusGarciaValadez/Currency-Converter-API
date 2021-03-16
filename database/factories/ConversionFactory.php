@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Conversion;
+use App\Models\Currency;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,9 +23,11 @@ class ConversionFactory extends Factory
      */
     public function definition()
     {
+        $currencies = Currency::all();
+
         return [
-            'source_currency' => $this->faker->currencyCode(),
-            'target_currency' => $this->faker->currencyCode(),
+            'currencies_id_source' => $currencies->random(),
+            'currencies_id_target' => $currencies->random(),
             'value' => $this->faker->randomFloat(2, 1, 1000),
             'rate' => $this->faker->randomFloat(2, 1000),
             'timestamp' => Carbon::now(),
