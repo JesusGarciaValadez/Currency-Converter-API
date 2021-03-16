@@ -18,7 +18,7 @@ class Conversion
         $this->repository = new ConversionRepository(new ConversionModel());
     }
 
-    public function processCurrencyConversion(Request $request): ConversionModel
+    public function processCurrencyConversion(Request $request): array
     {
         $currencyConverted = $this->client->getCurrencyConverted($request);
         return $this->repository->storeCurrencyConverted($currencyConverted);
