@@ -21,6 +21,8 @@ class ConversionRepository
         $this->model['target_currency'] = $currencyConvertedResponse->query->to;
         $this->model['value'] = (string) $currencyConvertedResponse->query->amount;
         $this->model['amount_converted'] = (string) $currencyConvertedResponse->result;
+        $this->model['rate'] = (string) $currencyConvertedResponse->info->rate;
+        $this->model['timestamp'] = (string) $currencyConvertedResponse->info->timestamp;
 
         if (!$this->model->save()) {
             throw new Exception('Conversion was not recorded.');
