@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ConversionsController;
+use App\Http\Controllers\ConversionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,5 +16,5 @@ use App\Http\Controllers\ConversionsController;
 */
 
 Route::name('currency.')->prefix('/currency')->group(function () {
-    Route::post('/conversion', [ConversionsController::class, 'store'])->name('show');
+    Route::post('/conversion', [ConversionController::class, 'store'])->name('show');
 });
