@@ -41,7 +41,11 @@ FIXER_API_KEY=
 
 ### How to create the database?
 
-Once the container was created and running, you have to run the following command: `./vendor/bin/sail artisan migrate:fresh`.
+Once the container was created and running, you have to run the following commands: 
+```
+./vendor/bin/sail artisan key:generate;
+./vendor/bin/sail artisan migrate:fresh;
+```.
 
 ### How to access the API?
 
